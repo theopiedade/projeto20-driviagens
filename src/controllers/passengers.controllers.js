@@ -1,4 +1,4 @@
-import { checkPassenger, createPassenger } from "../repository/passenger.repository.js"
+import { checkPassenger, createPassenger } from "../repository/passengers.repository.js"
 
 
 export async function postPassengers(req, res) {
@@ -12,7 +12,7 @@ export async function postPassengers(req, res) {
 
         const id = await checkPassenger(firstName, lastName);
 
-        return res.sendStatus(201)
+        return res.status(201).send(id.rows);
 
     } catch (err) {
         return res.status(500).send(err.message)
