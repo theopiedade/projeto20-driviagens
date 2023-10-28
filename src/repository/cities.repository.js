@@ -20,3 +20,13 @@ export async function checkCities(name) {
     )
 
 }
+
+export async function checkCitiesById(id) {
+
+    return (
+        db.query(`
+        SELECT * FROM cities WHERE id = $1;
+        `, [id])
+    )
+
+}
