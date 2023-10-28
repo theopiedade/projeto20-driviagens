@@ -20,3 +20,13 @@ export async function checkFlights(origin, destination, date) {
     )
 
 }
+
+export async function checkFlightById(id) {
+
+    return (
+        db.query(`
+        SELECT * FROM flights WHERE id = $1;
+        `, [id])
+    )
+
+}

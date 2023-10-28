@@ -21,3 +21,13 @@ export async function checkPassenger(firstName, lastName) {
 
 }
 
+export async function checkPassengerById(id) {
+
+    return (
+        db.query(`
+        SELECT * FROM passengers WHERE id = $1;
+        `, [id])
+    )
+
+}
+
