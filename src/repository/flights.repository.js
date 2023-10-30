@@ -41,7 +41,6 @@ export async function getFlightsByOriginAndDestination(queryAdd) {
     JOIN cities AS destination_cities ON flights.destination = destination_cities.id
     WHERE `+queryAdd+` ORDER BY flights.date DESC;`
 
-    console.log(querySelect);
 
     return (
         db.query(querySelect)

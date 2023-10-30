@@ -54,8 +54,6 @@ export async function getPassengersTravelsByName(name) {
     GROUP BY CONCAT(passengers."firstName", ' ', passengers."lastName")
     ORDER BY travels DESC;`
 
-    console.log(querySelect);
-
      return (
         db.query(querySelect)
     )
