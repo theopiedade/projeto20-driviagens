@@ -15,7 +15,7 @@ export async function checkFlights(origin, destination, date) {
 
     return (
         db.query(`
-        SELECT id AS "id", origin AS "origin", destination AS "destination", date AS "date" FROM flights WHERE origin = $1 AND destination = $2 AND date = $3;
+        SELECT id AS "id", origin AS "origin", destination AS "destination", TO_CHAR(date, 'DD-MM-YYYY') AS "date" FROM flights WHERE origin = $1 AND destination = $2 AND date = $3;
         `, [origin, destination, date])
     )
 

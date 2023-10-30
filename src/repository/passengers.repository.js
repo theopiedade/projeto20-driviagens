@@ -31,3 +31,32 @@ export async function checkPassengerById(id) {
 
 }
 
+export async function getAllPassengersTravels() {
+    return (
+        db.query(`
+        SELECT CONCAT(passengers."firstName", ' ', passengers."lastName") AS "passenger", COUNT(travels."passengerId") AS travels 
+        FROM passengers
+        LEFT JOIN travels ON passengers.id = travels."passengerId"
+        GROUP BY CONCAT(passengers."firstName", ' ', passengers."lastName")
+        ORDER BY travels DESC;
+        `)
+    )
+
+}
+
+export async function getPassengersTravelsByName(name) {
+
+    var querySelect = `
+    SELECT CONCAT(passengers."firstName", ' ', passengers."lastName") AS "passenger", COUNT(travels."passengerId") AS travels 
+    FROM passengers
+    LEFT JOIN travels ON passengers.id = travels."passengerId"
+    WHERE passengers."firstName" LIKE '%`+name+`%' OR passengers."lastName" LIKE '%`+name+`%'
+    GROUP BY CONCAT(passengers."firstName", ' ', passengers."lastName")
+    ORDER BY travels DESC;`
+
+    console.log(querySelect);
+
+     return (
+        db.query(querySelect)
+    )
+}

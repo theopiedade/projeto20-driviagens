@@ -20,3 +20,6 @@ export async function checkTravel(passengerId, flightId) {
     )
 
 }
+
+
+
