@@ -1,6 +1,7 @@
-import { checkCitiesById } from "../repository/cities.repository.js"
-import { createFlights, checkFlights } from "../repository/flights.repository.js"
-import { formatData, validateDate } from "../services/flights.services.js"
+import { query } from "express"
+import { checkCitiesById, checkCitiesIdByName } from "../repository/cities.repository.js"
+import { createFlights, checkFlights, getFlightsByOriginAndDestination } from "../repository/flights.repository.js"
+import { formatData, validateDate, validateCity } from "../services/flights.services.js"
 
 
 
@@ -34,6 +35,35 @@ export async function postFlights(req, res) {
 
     } catch (err) {
         return res.status(500).send(err.message)
+    }
+
+}
+
+
+
+
+export async function getFlights(req, res) {
+    const origin = req.query.origin;
+    const destination = req.query.destination;
+
+    console.log("validateCity(origin)"+validateCity(origin)+" validateCity(destination)"+validateCity(destination));
+
+
+    if (!validateCity(origin) && !validateCity(destination)) { var querySel = "flights.id > 0" }
+    if (validateCity(origin)  && !validateCity(destination)) { var querySel = `origin_cities.name = '`+origin+`'` }
+    if (!validateCity(origin) && validateCity(destination)) { var querySel = `destination_cities.name  = '`+destination+`'` }
+    if (validateCity(origin) && validateCity(destination)) { var querySel = `origin_cities.name = '`+origin+`' AND destination_cities.name = '`+destination+`'` }
+
+    console.log("query = "+querySel);
+
+    try {
+
+        const flights = await getFlightsByOriginAndDestination(querySel)
+
+        return res.send(flights.rows);
+
+    } catch (err) {
+        return res.status(500).send(err.message+" origin: "+origin+" destination:"+destination)
     }
 
 }

@@ -30,3 +30,21 @@ export async function checkFlightById(id) {
     )
 
 }
+
+
+export async function getFlightsByOriginAndDestination(queryAdd) {
+
+    var querySelect = `
+    SELECT flights.id AS "id", origin_cities.name AS "origin", destination_cities.name AS "destination", TO_CHAR(flights.date,'DD-MM-YYYY') AS "date"
+    FROM flights
+    JOIN cities AS origin_cities ON flights.origin = origin_cities.id
+    JOIN cities AS destination_cities ON flights.destination = destination_cities.id
+    WHERE `+queryAdd+` ORDER BY flights.date DESC;`
+
+    console.log(querySelect);
+
+    return (
+        db.query(querySelect)
+    )
+
+}

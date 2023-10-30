@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+
 export function formatData(data) {
     var parts = data.split("-");
     
@@ -15,5 +16,11 @@ export function formatData(data) {
 export function validateDate(data) { 
     const schema = Joi.date().iso().greater('now').required();
     return schema.validate(data);
+}
+
+export function validateCity(city) {
+    const schema = Joi.string().min(2).max(50).required()
+    if (schema.validate(city).error) return false
+    else return true  
 }
 

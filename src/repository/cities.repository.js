@@ -30,3 +30,13 @@ export async function checkCitiesById(id) {
     )
 
 }
+
+export async function checkCitiesIdByName(name) {
+
+    return (
+        db.query(`
+        SELECT JSON_BUILD_OBJECT('id', id) AS "city" FROM cities WHERE name = $1;
+        `, [name])
+    )
+
+}
